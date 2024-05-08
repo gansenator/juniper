@@ -972,9 +972,14 @@ class healthcheck:
         elif len(dict_rsi['fpc']) > 1 and FPC_info_temp == []:
             pass
         else:
-            mytable.add_row(['Online FPC','FPC '+str(dict_rsi['fpc'][0])])
-            mytable.add_row(['FPC0 Start time',dict_rsi['re_refpc_starttime'][1]])
-            mytable.add_row(['FPC0 Uptime',dict_rsi['re_refpc_uptime'][1]])
+            try:
+                mytable.add_row(['Online FPC','FPC '+str(dict_rsi['fpc'][0])])
+                mytable.add_row(['FPC0 Start time',dict_rsi['re_refpc_starttime'][1]])
+                mytable.add_row(['FPC0 Uptime',dict_rsi['re_refpc_uptime'][1]])
+            except IndexError:
+                print(R+"No FPCs found in the 'show chassis hardware' output;CHECK whether the RSI is collected from the Master RE."+N)
+                exit(1)
+                
         
         #Display Failed Hardware 
         if len(dict_rsi['hw_component']) >= 1:  
